@@ -66,6 +66,7 @@ namespace eftest
                 Console.WriteLine($"  Changed book: {bookToChange.ID} - {bookToChange.Name} written by {bookToChange.Author.Name}");
                 Console.WriteLine($"  Existing author's `IsKeySet`: {ctx.Entry(existingAuthor).IsKeySet}");
 
+                ctx.Entry(existingAuthor).State = EntityState.Unchanged;
                 ctx.SaveChanges();
                 Console.WriteLine($"  Saved changes");
             }
@@ -82,6 +83,7 @@ namespace eftest
                 Console.WriteLine($"  Added author ({existingAuthor.Name}) to a new book. Author's `IsKeySet`: {ctx.Entry(existingAuthor).IsKeySet}");
 
                 ctx.Add(book);
+                ctx.Entry(existingAuthor).State = EntityState.Unchanged;
                 ctx.SaveChanges();
             }
 
