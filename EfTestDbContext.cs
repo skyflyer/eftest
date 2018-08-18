@@ -10,11 +10,11 @@ namespace eftest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase();
+            optionsBuilder.UseInMemoryDatabase("test");
 
             var lf = new LoggerFactory();
             lf.AddProvider(new EFLoggingProvider());
-            optionsBuilder.UseLoggerFactory(lf);
+            // optionsBuilder.UseLoggerFactory(lf);
         }
     }
 }
