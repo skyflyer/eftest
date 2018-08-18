@@ -8,6 +8,11 @@ namespace eftest
     {
         static void Main(string[] args)
         {
+            using (var ctx = new EfTestDbContext())
+            {
+                ctx.Database.EnsureCreated();
+            }
+
             Author existingAuthor;
             using (var ctx = new EfTestDbContext())
             {

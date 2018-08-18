@@ -11,6 +11,7 @@ namespace eftest
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase("test");
+            // optionsBuilder.UseSqlite("Filename=db.sqlite3");
 
             var lf = new LoggerFactory();
             lf.AddProvider(new EFLoggingProvider());
