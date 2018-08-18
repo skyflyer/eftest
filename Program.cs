@@ -38,6 +38,41 @@ namespace eftest
                 Console.WriteLine($"  Saved");
             }
 
+            PrintDatabaseContents();
+
+            using (var ctx = new EfTestDbContext())
+            {
+                Console.WriteLine($"Changing author of the book");
+                var bookToChange = ctx.Books.First();
+                bookToChange.AuthorID = existingAuthor.ID;
+                Console.WriteLine($"  Changed book: {bookToChange.ID} - {bookToChange.Name} written by {bookToChange.AuthorID}");
+
+                ctx.SaveChanges();
+                Console.WriteLine($"  Saved changes");
+            }
+
+            using (var ctx = new EfTestDbContext())
+            {
+                Console.WriteLine($"Adding a new book with an existing author");
+                var book = new Book()
+                {
+                    Name = "Second book",
+                    AuthorID = existingAuthor.ID
+                };
+
+                Console.WriteLine($"  Added author ({existingAuthor.Name}) to a new book. Author's `IsKeySet`: {ctx.Entry(existingAuthor).IsKeySet}");
+
+                ctx.Add(book);
+                ctx.SaveChanges();
+            }
+
+            PrintDatabaseContents();
+
+            Console.WriteLine("ALL DONE");
+        }
+
+        static void PrintDatabaseContents()
+        {
             Console.WriteLine($"Database contents:");
             using (var ctx = new EfTestDbContext())
             {
@@ -53,41 +88,6 @@ namespace eftest
                 Console.WriteLine($"");
             }
 
-            using (var ctx = new EfTestDbContext())
-            {
-                Console.WriteLine($"Changing author of the book");
-                var bookToChange = ctx.Books.First();
-                bookToChange.Author = existingAuthor;
-                Console.WriteLine($"  Changed book: {bookToChange.ID} - {bookToChange.Name} written by {bookToChange.Author.Name}");
-                var book = new Book()
-                {
-                    Name = "First book",
-                    Author = existingAuthor
-                };
-
-                Console.WriteLine($"  Existing author's `IsKeySet`: {ctx.Entry(existingAuthor).IsKeySet}");
-
-                ctx.Add(book);
-                ctx.SaveChanges();
-                Console.WriteLine($"  Saved changes");
-            }
-
-            using (var ctx = new EfTestDbContext())
-            {
-                Console.WriteLine($"Adding a new book with an existing author");
-                var book = new Book()
-                {
-                    Name = "First book",
-                    Author = existingAuthor
-                };
-
-                Console.WriteLine($"  Added author ({existingAuthor.Name}) to a new book. Author's `IsKeySet`: {ctx.Entry(existingAuthor).IsKeySet}");
-
-                ctx.Add(book);
-                ctx.SaveChanges();
-            }
-
-            Console.WriteLine("ALL DONE");
         }
     }
 }
