@@ -59,15 +59,8 @@ namespace eftest
                 var bookToChange = ctx.Books.First();
                 bookToChange.Author = existingAuthor;
                 Console.WriteLine($"  Changed book: {bookToChange.ID} - {bookToChange.Name} written by {bookToChange.Author.Name}");
-                var book = new Book()
-                {
-                    Name = "First book",
-                    Author = existingAuthor
-                };
-
                 Console.WriteLine($"  Existing author's `IsKeySet`: {ctx.Entry(existingAuthor).IsKeySet}");
 
-                ctx.Add(book);
                 ctx.SaveChanges();
                 Console.WriteLine($"  Saved changes");
             }
